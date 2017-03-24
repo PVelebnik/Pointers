@@ -7,14 +7,15 @@ void StringListInit(char*** list);
 void StringListDestroy(char*** list);
 
 // Inserts value at the end of the list.
-void StringListAdd(char*** list, const std::string &str);
+void StringListAdd(char*** list, const char* str);
 // Removes all occurrences of str in the list.
-void StringListRemove(char** list, const std::string &str);
+void StringListRemove(char** list, const char* str);
 
+int* GetStringListInitPtr(char** list);
 //Returns pinter to quantity of initialized strings
-int* StringListInitialized(char** list);
+int StringListInitialized(char** list);
 //Returns pointer to capacity of list
-int* StringListCapacity(char** list);
+int StringListCapacity(char** list);
 
 //Prints all strings in list
 void StringListPrint(char**);

@@ -14,13 +14,13 @@ void testListInit()
 	char** testList = NULL;
 	StringListInit(&testList);
 
-	ARE_EQ(*StringListInitialized(testList), 0)
+	ARE_EQ(StringListInitialized(testList), 0)
 
-    std::string str = "first";
+	char* str = "first";
 	StringListAdd(&testList, str);
 
-	ARE_EQ_CSTR(testList[0], str.c_str())
-    ARE_EQ(*StringListInitialized(testList), 1)
+	ARE_EQ_CSTR(testList[0], str)
+    ARE_EQ(StringListInitialized(testList), 1)
 
 	StringListDestroy(&testList);
 	std::cout << std::endl;
@@ -32,9 +32,9 @@ void testListDestroy()
 	char** testList = NULL;
 	StringListInit(&testList);
 
-	std::string str = "first";
+	char* str = "first";
 	StringListAdd(&testList, str);
-	ARE_EQ(testList[0], str)
+	ARE_EQ_CSTR(testList[0], str)
 
 	StringListDestroy(&testList);
 	ARE_EQ(testList, NULL)
@@ -42,19 +42,23 @@ void testListDestroy()
 	std::cout << std::endl;
 }
 
+
+//check realloc
+//strings` pointers did not change addresses
+//pointer testList have been changed
 void testListAdd()
 {
 	std::cout << "testListAdd:" << std::endl;
 	char** testList = NULL;
 	StringListInit(&testList);
 
-	std::string str = "first";
+	char* str = "first";
 	StringListAdd(&testList, str);
 
-	ARE_EQ(*StringListInitialized(testList), 1)
-	ARE_EQ_CSTR(testList[0], str.c_str())
+	ARE_EQ(StringListInitialized(testList), 1)
+	ARE_EQ_CSTR(testList[0], str)
 	StringListAdd(&testList, str);
-	ARE_EQ(*StringListInitialized(testList), 2)
+	ARE_EQ(StringListInitialized(testList), 2)
 
 	StringListDestroy(&testList);
 	std::cout << std::endl;
@@ -65,19 +69,19 @@ void testListRemove()
 	std::cout << "testListRemove:" << std::endl;
 	char** testList = NULL;
 	StringListInit(&testList);
-	std::string str = "foo";
-	std::string str2 = "bar";
-	std::string str3 = "foobar";
+	char* str = "foo";
+	char*str2 = "bar";
+	char*str3 = "foobar";
 
 	StringListAdd(&testList, str);
 	StringListAdd(&testList, str2);
 	StringListAdd(&testList, str3);
 
 	StringListRemove(testList, str);
-	ARE_EQ_CSTR(testList[0], str2.c_str())
+	ARE_EQ_CSTR(testList[0], str2)
 
 	StringListRemove(testList, str2);
-	ARE_EQ_CSTR(testList[0], str3.c_str())
+	ARE_EQ_CSTR(testList[0], str3)
 
 		StringListDestroy(&testList);
 	std::cout << std::endl;
@@ -88,11 +92,11 @@ void testInitialized()
 	std::cout << "testInitialized:" << std::endl;
 	char** testList = NULL;
 	StringListInit(&testList);
-	ARE_EQ(*StringListInitialized(testList), 0)
+	ARE_EQ(StringListInitialized(testList), 0)
 	
-	std::string str = "efgh";
+	char* str = "efgh";
 	StringListAdd(&testList, str);
-	ARE_EQ(*StringListInitialized(testList), 1)
+	ARE_EQ(StringListInitialized(testList), 1)
 
 	StringListDestroy(&testList);
 	std::cout << std::endl;
@@ -103,7 +107,7 @@ void testCapacity()
 	std::cout << "testCapacity:" << std::endl;
 	char** testList = NULL;
 	StringListInit(&testList);
-	ARE_EQ(*StringListCapacity(testList), 5)
+	ARE_EQ(StringListCapacity(testList), 5)
 	StringListDestroy(&testList);
 	std::cout << std::endl;
 }
@@ -114,18 +118,18 @@ void testIndexOf()
 	char** testList = NULL;
 	StringListInit(&testList);
 
-	std::string str = "foo";
-	std::string str2 = "bar";
-	std::string str3 = "bar";
+	char* str = "foo";
+	char* str2 = "bar";
+	char* str3 = "bar";
 
-	ARE_EQ(StringListIndexOf(testList, str3.c_str()), -1)
+	ARE_EQ(StringListIndexOf(testList, str3), -1)
 
 	StringListAdd(&testList, str);
 	StringListAdd(&testList, str2);
 	StringListAdd(&testList, str3);
 
 
-	ARE_EQ(StringListIndexOf(testList, str3.c_str()), 1)
+	ARE_EQ(StringListIndexOf(testList, str3), 1)
 
 	StringListDestroy(&testList);
 	std::cout << std::endl;
@@ -137,9 +141,9 @@ void testSort()
 	char** testList = NULL;
 	StringListInit(&testList);
 
-	std::string str = "efgh";
-	std::string str2 = "jklm";
-	std::string str3 = "abcde";
+	char* str = "efgh";
+	char* str2 = "jklm";
+	char* str3 = "abcde";
 
 	StringListAdd(&testList, str);
 	StringListAdd(&testList, str2);
@@ -147,9 +151,9 @@ void testSort()
 
 	StringListSort(testList);
 
-	ARE_EQ_CSTR(testList[0], str3.c_str())
-	ARE_EQ_CSTR(testList[1], str.c_str())
-	ARE_EQ_CSTR(testList[2], str2.c_str())
+	ARE_EQ_CSTR(testList[0], str3)
+	ARE_EQ_CSTR(testList[1], str)
+	ARE_EQ_CSTR(testList[2], str2)
 
 	StringListDestroy(&testList);
 	std::cout << std::endl;

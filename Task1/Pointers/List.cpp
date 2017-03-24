@@ -7,7 +7,7 @@ void StringListInit(char*** list)
 	void* memory = malloc(5 * sizeof(char*) + 2 * sizeof(int));
 	int* const capacity = (int*)memory;
 	int* const initialized = capacity + 1;
-	*list = (char**)initialized+1;
+	*list = (char**)initialized + 1;
 	*capacity = 5;
 	*initialized = 0;
 	char** strings = *list;
@@ -31,14 +31,13 @@ void StringListDestroy(char*** list)
 	*list = NULL;
 }
 
-void StringListAdd(char*** list, const std::string &str)
+void StringListAdd(char*** list, const char* str)
 {
-	char* newStr = (char*)malloc(str.length()+ 1);
-	newStr[str.length()] = '\0';
-	strcpy(newStr, str.c_str());
+	char* newStr = (char*)malloc(strlen(str)+1);
+	strcpy(newStr, str);
 	int* memory = (int*)*list - 2;
-	int capacity = *StringListCapacity(*list);
-	int initialized = *StringListInitialized(*list);
+	int capacity = StringListCapacity(*list);
+	int initialized = StringListInitialized(*list);
 	if (capacity == initialized)
 	{
 		capacity = 2 * initialized;
@@ -46,21 +45,18 @@ void StringListAdd(char*** list, const std::string &str)
 		*list = (char**)((int*)newMemory+2);
 	}
 	(*list)[initialized] = newStr;
-	(*StringListInitialized(*list))++;
+	(*GetStringListInitPtr(*list))++;
 }
 
-void StringListRemove(char** list, const std::string &str)
+void StringListRemove(char** list, const char* str)
 {
-	int& initialized = *StringListInitialized(list);
-	int removed = 0;
+	int& initialized = *GetStringListInitPtr(list);
 	for(int i=0; i<initialized; i++)
 	{
-		if (strcmp(list[i], str.c_str())==0)
+		if (strcmp(list[i], str)==0)
 		{
 			free(list[i]);
 			list[i] = NULL;
-			removed++;
-			//(*initialized)--;
 		}
 
 	}
@@ -89,20 +85,24 @@ void StringListRemove(char** list, const std::string &str)
 	
 }
 
-
-int* StringListInitialized(char** list)
+int* GetStringListInitPtr(char** list)
 {
 	return (int*)list - 1;
 }
 
-int* StringListCapacity(char** list)
+int StringListInitialized(char** list)
 {
-	return (int*)list - 2;
+	return *((int*)list - 1);
+}
+
+int StringListCapacity(char** list)
+{
+	return *((int*)list - 2);
 }
 
 void StringListPrint(char** list)
 {
-	for (int i = 0; i < *StringListInitialized(list); i++)
+	for (int i = 0; i < StringListInitialized(list); i++)
 	{
 		std::cout << list[i] <<std::endl;
 	}
@@ -110,7 +110,7 @@ void StringListPrint(char** list)
 
 int StringListIndexOf(char** list, const char* str)
 {
-	for(int i=0;i<*StringListInitialized(list);i++)
+	for(int i = 0; i<StringListInitialized(list); i++)
 	{
 		if (strcmp(list[i], str) == 0)
 		{
@@ -122,7 +122,7 @@ int StringListIndexOf(char** list, const char* str)
 
 void StringListSort(char** list)
 {
-	const int& initialized = *StringListInitialized(list);
+	const int initialized = *GetStringListInitPtr(list);
 	char* temp = NULL;
 	for (int i = 0; i < initialized; i++)
 	{
