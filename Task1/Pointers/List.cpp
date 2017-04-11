@@ -1,6 +1,5 @@
-#include <iostream>
-
 #include "List.h"
+#include <iostream>
 
 void StringListInit(char*** list)
 {
@@ -33,18 +32,18 @@ void StringListDestroy(char*** list)
 
 void StringListAdd(char*** list, const char* str)
 {
-	char* newStr = (char*)malloc(strlen(str)+1);
-	strcpy(newStr, str);
+	char* new_str = (char*)malloc(strlen(str)+1);
+	strcpy(new_str, str);
 	int* memory = (int*)*list - 2;
 	int capacity = StringListCapacity(*list);
 	int initialized = StringListInitialized(*list);
 	if (capacity == initialized)
 	{
 		capacity = 2 * initialized;
-		void* newMemory = realloc(memory, capacity*sizeof(char*) + 2 * sizeof(int));
-		*list = (char**)((int*)newMemory+2);
+		void* new_memory = realloc(memory, capacity*sizeof(char*) + 2 * sizeof(int));
+		*list = (char**)((int*)new_memory+2);
 	}
-	(*list)[initialized] = newStr;
+	(*list)[initialized] = new_str;
 	(*GetStringListInitPtr(*list))++;
 }
 

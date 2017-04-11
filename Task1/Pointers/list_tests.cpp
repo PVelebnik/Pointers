@@ -8,36 +8,36 @@
 #define ARE_EQ_CSTR( x, y) \
  if (strcmp(x, y) == 0) std::cout << "Passed" <<std::endl; else { std::cout<< "Failed " <<x <<" != " << y<<std::endl;  return;} 
 
-void testListInit()
+void TestListInit()
 {
-	std::cout << "testListInit:" << std::endl;
-	char** testList = NULL;
-	StringListInit(&testList);
+	std::cout << "TestListInit:" << std::endl;
+	char** test_list = NULL;
+	StringListInit(&test_list);
 
-	ARE_EQ(StringListInitialized(testList), 0)
+	ARE_EQ(StringListInitialized(test_list), 0)
 
 	char* str = "first";
-	StringListAdd(&testList, str);
+	StringListAdd(&test_list, str);
 
-	ARE_EQ_CSTR(testList[0], str)
-    ARE_EQ(StringListInitialized(testList), 1)
+	ARE_EQ_CSTR(test_list[0], str)
+    ARE_EQ(StringListInitialized(test_list), 1)
 
-	StringListDestroy(&testList);
+	StringListDestroy(&test_list);
 	std::cout << std::endl;
 }
 
-void testListDestroy()
+void TestListDestroy()
 {
-	std::cout << "testListDestroy:" << std::endl;
-	char** testList = NULL;
-	StringListInit(&testList);
+	std::cout << "TestListDestroy:" << std::endl;
+	char** test_list = NULL;
+	StringListInit(&test_list);
 
 	char* str = "first";
-	StringListAdd(&testList, str);
-	ARE_EQ_CSTR(testList[0], str)
+	StringListAdd(&test_list, str);
+	ARE_EQ_CSTR(test_list[0], str)
 
-	StringListDestroy(&testList);
-	ARE_EQ(testList, NULL)
+	StringListDestroy(&test_list);
+	ARE_EQ(test_list, NULL)
 
 	std::cout << std::endl;
 }
@@ -46,127 +46,127 @@ void testListDestroy()
 //check realloc
 //strings` pointers did not change addresses
 //pointer testList have been changed
-void testListAdd()
+void TestListAdd()
 {
-	std::cout << "testListAdd:" << std::endl;
-	char** testList = NULL;
-	StringListInit(&testList);
+	std::cout << "TestListAdd:" << std::endl;
+	char** test_list = NULL;
+	StringListInit(&test_list);
 
 	char* str = "first";
-	StringListAdd(&testList, str);
+	StringListAdd(&test_list, str);
 
-	ARE_EQ(StringListInitialized(testList), 1)
-	ARE_EQ_CSTR(testList[0], str)
-	StringListAdd(&testList, str);
-	ARE_EQ(StringListInitialized(testList), 2)
+	ARE_EQ(StringListInitialized(test_list), 1)
+	ARE_EQ_CSTR(test_list[0], str)
+	StringListAdd(&test_list, str);
+	ARE_EQ(StringListInitialized(test_list), 2)
 
-	StringListDestroy(&testList);
+	StringListDestroy(&test_list);
 	std::cout << std::endl;
 }
 
-void testListRemove()
+void TestListRemove()
 {
-	std::cout << "testListRemove:" << std::endl;
-	char** testList = NULL;
-	StringListInit(&testList);
+	std::cout << "TestListRemove:" << std::endl;
+	char** test_list = NULL;
+	StringListInit(&test_list);
 	char* str = "foo";
 	char*str2 = "bar";
 	char*str3 = "foobar";
 
-	StringListAdd(&testList, str);
-	StringListAdd(&testList, str2);
-	StringListAdd(&testList, str3);
+	StringListAdd(&test_list, str);
+	StringListAdd(&test_list, str2);
+	StringListAdd(&test_list, str3);
 
-	StringListRemove(testList, str);
-	ARE_EQ_CSTR(testList[0], str2)
+	StringListRemove(test_list, str);
+	ARE_EQ_CSTR(test_list[0], str2)
 
-	StringListRemove(testList, str2);
-	ARE_EQ_CSTR(testList[0], str3)
+	StringListRemove(test_list, str2);
+	ARE_EQ_CSTR(test_list[0], str3)
 
-		StringListDestroy(&testList);
+		StringListDestroy(&test_list);
 	std::cout << std::endl;
 }
 
-void testInitialized()
+void TestInitialized()
 {
-	std::cout << "testInitialized:" << std::endl;
-	char** testList = NULL;
-	StringListInit(&testList);
-	ARE_EQ(StringListInitialized(testList), 0)
+	std::cout << "TestInitialized:" << std::endl;
+	char** test_list = NULL;
+	StringListInit(&test_list);
+	ARE_EQ(StringListInitialized(test_list), 0)
 	
 	char* str = "efgh";
-	StringListAdd(&testList, str);
-	ARE_EQ(StringListInitialized(testList), 1)
+	StringListAdd(&test_list, str);
+	ARE_EQ(StringListInitialized(test_list), 1)
 
-	StringListDestroy(&testList);
+	StringListDestroy(&test_list);
 	std::cout << std::endl;
 }
 
-void testCapacity()
+void TestCapacity()
 {
-	std::cout << "testCapacity:" << std::endl;
-	char** testList = NULL;
-	StringListInit(&testList);
-	ARE_EQ(StringListCapacity(testList), 5)
-	StringListDestroy(&testList);
+	std::cout << "TestCapacity:" << std::endl;
+	char** test_list = NULL;
+	StringListInit(&test_list);
+	ARE_EQ(StringListCapacity(test_list), 5)
+	StringListDestroy(&test_list);
 	std::cout << std::endl;
 }
 
-void testIndexOf()
+void TestIndexOf()
 {
-	std::cout << "testIndexOf:" << std::endl;
-	char** testList = NULL;
-	StringListInit(&testList);
+	std::cout << "TestIndexOf:" << std::endl;
+	char** test_list = NULL;
+	StringListInit(&test_list);
 
 	char* str = "foo";
 	char* str2 = "bar";
 	char* str3 = "bar";
 
-	ARE_EQ(StringListIndexOf(testList, str3), -1)
+	ARE_EQ(StringListIndexOf(test_list, str3), -1)
 
-	StringListAdd(&testList, str);
-	StringListAdd(&testList, str2);
-	StringListAdd(&testList, str3);
+	StringListAdd(&test_list, str);
+	StringListAdd(&test_list, str2);
+	StringListAdd(&test_list, str3);
 
 
-	ARE_EQ(StringListIndexOf(testList, str3), 1)
+	ARE_EQ(StringListIndexOf(test_list, str3), 1)
 
-	StringListDestroy(&testList);
+	StringListDestroy(&test_list);
 	std::cout << std::endl;
 }
 
-void testSort()
+void TestSort()
 {
-	std::cout << "testSort:" << std::endl;
-	char** testList = NULL;
-	StringListInit(&testList);
+	std::cout << "TestSort:" << std::endl;
+	char** test_list = NULL;
+	StringListInit(&test_list);
 
 	char* str = "efgh";
 	char* str2 = "jklm";
 	char* str3 = "abcde";
 
-	StringListAdd(&testList, str);
-	StringListAdd(&testList, str2);
-	StringListAdd(&testList, str3);
+	StringListAdd(&test_list, str);
+	StringListAdd(&test_list, str2);
+	StringListAdd(&test_list, str3);
 
-	StringListSort(testList);
+	StringListSort(test_list);
 
-	ARE_EQ_CSTR(testList[0], str3)
-	ARE_EQ_CSTR(testList[1], str)
-	ARE_EQ_CSTR(testList[2], str2)
+	ARE_EQ_CSTR(test_list[0], str3)
+	ARE_EQ_CSTR(test_list[1], str)
+	ARE_EQ_CSTR(test_list[2], str2)
 
-	StringListDestroy(&testList);
+	StringListDestroy(&test_list);
 	std::cout << std::endl;
 }
 
-void runTests()
+void RunTests()
 {
-	testListInit();
-	testListDestroy();
-	testListAdd();
-	testListRemove();
-	testInitialized();
-	testCapacity();
-	testIndexOf();
-	testSort();
+	TestListInit();
+	TestListDestroy();
+	TestListAdd();
+	TestListRemove();
+	TestInitialized();
+	TestCapacity();
+	TestIndexOf();
+	TestSort();
 }
